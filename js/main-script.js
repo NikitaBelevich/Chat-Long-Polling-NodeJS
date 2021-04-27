@@ -4,12 +4,12 @@ const messagesList = document.querySelector('#messages');
 const publishForm = document.querySelector('#publish');
 // We send a message from the input
 publishForm.addEventListener('submit', function(e) {
-    // e.preventDefault();
+    e.preventDefault();
     let message = this.elements.message.value.trim();
     const xhr = new XMLHttpRequest();
 
-    xhr.open("POST", "/publish", true);
-
+    xhr.open("POST", "/publish", true); 
+    // A POST request with the data to our server
     xhr.send(JSON.stringify({message: message}));
 
     this.elements.message.value = '';
@@ -19,7 +19,7 @@ publishForm.addEventListener('submit', function(e) {
 
 
 // Long-pooling caht
-// subscribe();
+subscribe();
 function subscribe() {
 
     const xhr = new XMLHttpRequest();
@@ -28,6 +28,7 @@ function subscribe() {
 
     // When a response was got, it is output as a text message
     xhr.onload = function() { 
+        console.warn(this);
         let li = document.createElement('li');
         li.textContent = this.responseText;
         messagesList.append(li);
