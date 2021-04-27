@@ -11,7 +11,13 @@ publishForm.addEventListener('submit', function(e) {
     xhr.open("POST", "/publish", true); 
     // A POST request with the data to our server
     xhr.send(JSON.stringify({message: message}));
-
+    
+    xhr.onload = function() {
+        if (xhr.status == 413) {
+            alert(xhr.responseText);
+        }
+    };
+    
     this.elements.message.value = '';
     console.log(message);
     return false;

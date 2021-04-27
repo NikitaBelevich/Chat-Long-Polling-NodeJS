@@ -39,8 +39,15 @@ const server = http.createServer((request, response) => {
                 .on('readable', () => {
                     // A message from a client as JSON
                     body += request.read() || ''; // Cleaning null
+
+                    if (body.length > 1e4) {
+                        response.statusCode = 413;
+                        body = ''; // Cleaning of the long message
+                        response.end('Your message is too big for my small chat');
+                    }
                 })
                 .on('end', () => {
+                    console.log('end');
                     try {
                         body = JSON.parse(body);
                     } catch (err) {
